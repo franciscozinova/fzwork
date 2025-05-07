@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FZWork - Plataforma de Vagas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #000428, #430046, #004e92);
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #0a0a1e;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header h1 {
+      color: #00d4ff;
+      font-size: 2.8em;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      font-size: 1.1em;
+      color: #bbb;
+      margin-top: 5px;
+    }
+
+    nav ul {
+      margin-top: 10px;
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #ccc;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #ff69b4;
+    }
+
+    nav ul li a i {
+      margin-right: 6px;
+    }
+
+    .inicio {
+      text-align: center;
+      padding: 60px 20px 20px;
+    }
+
+    .inicio h2 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      color: #00d4ff;
+    }
+
+    .inicio p {
+      font-size: 1.2em;
+      color: #ddd;
+    }
+
+    .form-container {
+      background-color: #1a1a2e;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(255, 105, 180, 0.4);
+    }
+
+    .form-container h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #00d4ff;
+    }
+
+    label {
+      margin-top: 15px;
+      display: block;
+      font-weight: 600;
+    }
+
+    input, select, textarea, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #111c2d;
+      color: white;
+      font-size: 1em;
+    }
+
+    button {
+      background-color: #ff1493;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #00aacc;
+    }
+
+    .vaga-lista {
+      max-width: 700px;
+      margin: 20px auto;
+    }
+
+    .vaga-card {
+      background-color: #00182d;
+      border-left: 4px solid #00d4ff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+    }
+
+    .vaga-card h3 {
+      margin-bottom: 8px;
+      color: #00d4ff;
+    }
+
+    .filtro {
+      max-width: 700px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #121a2f;
+      border-radius: 10px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #0a0a1e;
+      margin-top: 40px;
+      color: #aaa;
+      font-size: 0.9em;
+    }
+
+    .login-container {
+      display: none;
+      max-width: 500px;
+      margin: 40px auto;
+    }
+
+    .login-container.active {
+      display: block;
+    }
+
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>FZWork</h1>
+    <p>Conectando talentos às oportunidades do futuro</p>
+    <nav>
+      <ul>
+        <li><a href="#inicio"><i class="fas fa-home"></i>Início</a></li>
+        <li><a href="#vagaForm"><i class="fas fa-plus-circle"></i>Publicar</a></li>
+        <li><a href="#listaVagas"><i class="fas fa-briefcase"></i>Vagas</a></li>
+        <li><a href="#login" id="loginLink"><i class="fas fa-sign-in-alt"></i>Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="inicio" id="inicio">
+    <h2>Bem-vindo ao FZWork</h2>
+    <p>Encontre oportunidades ou publique vagas para várias áreas profissionais!</p>
+  </section>
+
+  <section class="filtro">
+    <label for="filtroArea">Filtrar por Área Profissional:</label>
+    <select id="filtroArea">
+      <option value="">Todas as áreas</option>
+    </select>
+  </section>
+
+  <section class="form-container">
+    <h2>Publicar uma Nova Vaga</h2>
+    <form id="vagaForm">
+      <label for="empresa">Nome da Empresa</label>
+      <input type="text" id="empresa" required>
+
+      <label for="contato">Email ou Telefone de Contato</label>
+      <input type="text" id="contato" required>
+
+      <label for="titulo">Título da Vaga</label>
+      <input type="text" id="titulo" required>
+
+      <label for="descricao">Descrição</label>
+      <textarea id="descricao" rows="4" required></textarea>
+
+      <label for="area">Área Profissional</label>
+      <select id="area" required></select>
+
+      <button type="submit">Publicar Vaga</button>
+    </form>
+  </section>
+
+  <section class="vaga-lista" id="listaVagas"></section>
+
+  <section class="login-container" id="loginSection">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <label for="loginEmail">Email</label>
+      <input type="email" id="loginEmail" required>
+
+      <label for="loginSenha">Senha</label>
+      <input type="password" id="loginSenha" required>
+
+      <button type="submit">Entrar</button>
+    </form>
+  </section>
+
+  <footer>
+    &copy; 2025 FZWork - Todos os direitos reservados | Feito por FZ
+  </footer>
+
+  <script>
+    const form = document.getElementById('vagaForm');
+    const lista = document.getElementById('listaVagas');
+    const areaSelect = document.getElementById('area');
+    const filtroArea = document.getElementById('filtroArea');
+    const loginLink = document.getElementById('loginLink');
+    const loginSection = document.getElementById('loginSection');
+    const loginForm = document.getElementById('loginForm');
+    const loginEmail = document.getElementById('loginEmail');
+    const loginSenha = document.getElementById('loginSenha');
+
+    const areas = [
+      "Administrador", "Agricultor", "Arquiteto", "Assistente Administrativo", "Atendente", "Auxiliar de Limpeza", "Bombeiro",
+      "Camareira", "Carpinteiro", "Chef", "Cobrador", "Consultor de Vendas", "Cozinheiro", "Designer", "Desenvolvedor Web",
+      "Diretor Escolar", "Editor de Vídeo", "Eletricista", "Encanador", "Engenheiro", "Entregador", "Esteticista", "Farmacêutico",
+      "Fotógrafo", "Freelancer", "Garçom", "Gestor de Projetos", "Jardineiro", "Serviços Gerais", "Técnico de Manutenção",
+      "Marketing", "Médico", "Motoboy", "Motorista", "Nutricionista", "Operador de Caixa", "Pedreiro", "Personal Trainer",
+      "Porteiro", "Professor", "Programador", "Psicólogo", "Recepcionista", "Representante Comercial", "Secretária", "Segurança",
+      "Soldador", "Técnico de Informática", "Tradutor", "Vendedor", "UX Designer", "Analista de Dados", "Gestor Financeiro",
+      "Supervisor de Loja", "Veterinário", "TI Suporte", "Operador de Telemarketing", "Consultor Jurídico", "Eletrotécnico",
+      "Analista de Sistemas", "Desenvolvedor Mobile", "Consultor de TI", "Cientista de Dados", "Engenheiro de Software"
+    ];
+
+    // Preencher os selects
+    areas.forEach(area => {
+      const option1 = document.createElement('option');
+      option1.value = area;
+      option1.textContent = area;
+      areaSelect.appendChild(option1);
+
+      const option2 = option1.cloneNode(true);
+      filtroArea.appendChild(option2);
+    });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const empresa = document.getElementById('empresa').value;
+      const contato = document.getElementById('contato').value;
+      const titulo = document.getElementById('titulo').value;
+      const descricao = document.getElementById('descricao').value;
+      const area = document.getElementById('area').value;
+
+      const card = document.createElement('div');
+      card.className = 'vaga-card';
+      card.setAttribute('data-area', area);
+      card.innerHTML = `
+        <h3>${titulo} - ${empresa}</h3>
+        <p><strong>Área:</strong> ${area}</p>
+        <p>${descricao}</p>
+        <p><strong>Contato:</strong> ${contato}</p>
+        <p><em>Publicado em: ${new Date().toLocaleDateString()}</em></p>
+      `;
+
+      lista.prepend(card);
+      form.reset();
+      alert("Vaga publicada com sucesso!");
+    });
+
+    filtroArea.addEventListener('change', () => {
+      const filtro = filtroArea.value;
+      document.querySelectorAll('.vaga-card').forEach(card => {
+        const cardArea = card.getAttribute('data-area');
+        card.style.display = filtro === '' || cardArea === filtro ? 'block' : 'none';
+      });
+    });
+
+    loginLink.addEventListener('click', () => {
+      loginSection.classList.toggle('active');
+    });
+
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = loginEmail.value;
+      const senha = loginSenha.value;
+
+      // Validação simples
+      if (email === "usuario@exemplo.com" && senha === "senha123") {
+        alert("Login realizado com sucesso!");
+        loginSection.classList.remove('active');
+      } else {
+        alert("Credenciais inválidas");
+      }
+    });
+  </script>
+
+</body>
+</html>
