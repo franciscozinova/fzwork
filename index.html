@@ -170,7 +170,6 @@
     .login-container.active {
       display: block;
     }
-
   </style>
 </head>
 <body>
@@ -241,91 +240,14 @@
     &copy; 2025 FZWork - Todos os direitos reservados | Feito por FZ
   </footer>
 
-  <script>
-    const form = document.getElementById('vagaForm');
-    const lista = document.getElementById('listaVagas');
-    const areaSelect = document.getElementById('area');
-    const filtroArea = document.getElementById('filtroArea');
-    const loginLink = document.getElementById('loginLink');
-    const loginSection = document.getElementById('loginSection');
-    const loginForm = document.getElementById('loginForm');
-    const loginEmail = document.getElementById('loginEmail');
-    const loginSenha = document.getElementById('loginSenha');
+  <!-- Firebase SDKs -->
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"></script>
 
-    const areas = [
-      "Administrador", "Agricultor", "Arquiteto", "Assistente Administrativo", "Atendente", "Auxiliar de Limpeza", "Bombeiro",
-      "Camareira", "Carpinteiro", "Chef", "Cobrador", "Consultor de Vendas", "Cozinheiro", "Designer", "Desenvolvedor Web",
-      "Diretor Escolar", "Editor de Vídeo", "Eletricista", "Encanador", "Engenheiro", "Entregador", "Esteticista", "Farmacêutico",
-      "Fotógrafo", "Freelancer", "Garçom", "Gestor de Projetos", "Jardineiro", "Serviços Gerais", "Técnico de Manutenção",
-      "Marketing", "Médico", "Motoboy", "Motorista", "Nutricionista", "Operador de Caixa", "Pedreiro", "Personal Trainer",
-      "Porteiro", "Professor", "Programador", "Psicólogo", "Recepcionista", "Representante Comercial", "Secretária", "Segurança",
-      "Soldador", "Técnico de Informática", "Tradutor", "Vendedor", "UX Designer", "Analista de Dados", "Gestor Financeiro",
-      "Supervisor de Loja", "Veterinário", "TI Suporte", "Operador de Telemarketing", "Consultor Jurídico", "Eletrotécnico",
-      "Analista de Sistemas", "Desenvolvedor Mobile", "Consultor de TI", "Cientista de Dados", "Engenheiro de Software"
-    ];
-
-    // Preencher os selects
-    areas.forEach(area => {
-      const option1 = document.createElement('option');
-      option1.value = area;
-      option1.textContent = area;
-      areaSelect.appendChild(option1);
-
-      const option2 = option1.cloneNode(true);
-      filtroArea.appendChild(option2);
-    });
-
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const empresa = document.getElementById('empresa').value;
-      const contato = document.getElementById('contato').value;
-      const titulo = document.getElementById('titulo').value;
-      const descricao = document.getElementById('descricao').value;
-      const area = document.getElementById('area').value;
-
-      const card = document.createElement('div');
-      card.className = 'vaga-card';
-      card.setAttribute('data-area', area);
-      card.innerHTML = `
-        <h3>${titulo} - ${empresa}</h3>
-        <p><strong>Área:</strong> ${area}</p>
-        <p>${descricao}</p>
-        <p><strong>Contato:</strong> ${contato}</p>
-        <p><em>Publicado em: ${new Date().toLocaleDateString()}</em></p>
-      `;
-
-      lista.prepend(card);
-      form.reset();
-      alert("Vaga publicada com sucesso!");
-    });
-
-    filtroArea.addEventListener('change', () => {
-      const filtro = filtroArea.value;
-      document.querySelectorAll('.vaga-card').forEach(card => {
-        const cardArea = card.getAttribute('data-area');
-        card.style.display = filtro === '' || cardArea === filtro ? 'block' : 'none';
-      });
-    });
-
-    loginLink.addEventListener('click', () => {
-      loginSection.classList.toggle('active');
-    });
-
-    loginForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      const email = loginEmail.value;
-      const senha = loginSenha.value;
-
-      // Validação simples
-      if (email === "usuario@exemplo.com" && senha === "senha123") {
-        alert("Login realizado com sucesso!");
-        loginSection.classList.remove('active');
-      } else {
-        alert("Credenciais inválidas");
-      }
-    });
-  </script>
+  <!-- Firebase Config e Aplicação -->
+  <script type="module" src="js/firebase-config.js"></script>
+  <script type="module" src="js/fzwork-app.js"></script>
 
 </body>
 </html>
